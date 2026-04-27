@@ -1,4 +1,4 @@
-# MVC Architecture Project
+## MVC Architecture Project
 
 ## Overview
 Energy Tracker App is a full-stack web application that helps users monitor and analyze their energy consumption across different locations. The system allows users to manage locations, track appliance usage, and view energy statistics to make informed decisions about energy efficiency.
@@ -71,12 +71,6 @@ mvc-architecture-project/
 └── README.md          # Project documentation
 \`\`\`
 
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-\`\`\`
-
 I've created a comprehensive README.md file for your MVC Architecture project. This single file includes all the necessary information about what the project does, how to install it, and the different ways to run it (`node server.mjs`, `npm start`, or `npm run dev`). 
 
 The README also includes sections on project structure, API endpoints, and contribution guidelines to help users understand and work with your project.
@@ -90,4 +84,15 @@ The README also includes sections on project structure, API endpoints, and contr
 </Actions>
 
 \`\`\`
+
+<img width="1047" height="547" alt="et1" src="https://github.com/user-attachments/assets/611ab26a-f0d9-42af-bff5-b38eca3a5610" />
+<img width="1036" height="369" alt="et2" src="https://github.com/user-attachments/assets/fc83a5c7-1029-42af-b129-68d9cd49ff09" />
+<img width="1047" height="873" alt="et3" src="https://github.com/user-attachments/assets/a31a28c1-d919-4157-8383-2be5290b8d0a" />
+<img width="1038" height="761" alt="et4" src="https://github.com/user-attachments/assets/28cf51ff-ef6f-4000-a4d0-614984218446" />
+<img width="787" height="698" alt="et5" src="https://github.com/user-attachments/assets/dcc3938d-ad4d-4fe9-ac82-c489531a578a" />
+
+
+
+
+
 
