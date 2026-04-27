@@ -1,25 +1,31 @@
 # MVC Architecture Project
 
 ## Overview
-
-This project demonstrates a Model-View-Controller (MVC) architecture implementation in Node.js. The MVC pattern separates an application into three main components:
+Energy Tracker App is a full-stack web application that helps users monitor and analyze their energy consumption across different locations. The system allows users to manage locations, track appliance usage, and view energy statistics to make informed decisions about energy efficiency.
 
 - **Model**: Handles data logic and database interactions
 - **View**: Manages the UI and presentation layer
 - **Controller**: Processes incoming requests and coordinates between Model and View
 
 ## Features
+Add, edit, and delete locations
+Track energy usage by appliances
+View energy statistics and insights
+Responsive user interface
+Data stored and managed using server-side logic
 
-- Clean separation of concerns using MVC architecture
-- RESTful API endpoints
-- Database integration
-- User authentication (optional)
-- Form validation
+## Tech Stack
 
-## Prerequisites
+Frontend: 
+HTML5
+CSS3
+JavaScript
+EJS 
 
-- Node.js (v18 or higher)
-- npm (v8 or higher)
+Backend:
+Node.js
+Express.js
+
 
 
 ## Running the Application
