@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Tracker - Locations</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav">
+      <ul>
+        <li><a href="/" class="active">Locations</a></li>
+        <li><a href="/leaderboard">Leaderboard</a></li>
+        <li><a href="/national-stats">National Stats</a></li>
+      </ul>
+    </nav>
+  
+    <div class="location-header">
+      <h1>My Locations</h1>
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search locations...">
+        <button id="create-button" class="create-button">Create Location</button>
+      </div>
+    </div>
+    
+    <div id="location-list" class="location-grid">
+      <!-- Location cards will be popped here -->
+    </div>
+    
+  </div>
+  
+  <script type="module" src="/scripts/LocationListController.mjs"></script>
+</body>
+</html>

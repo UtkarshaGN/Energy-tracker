@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Tracker - National Statistics</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav">
+      <ul>
+        <li><a href="/">Locations</a></li>
+        <li><a href="/leaderboard">Leaderboard</a></li>
+        <li><a href="/national-stats" class="active">National Stats</a></li>
+      </ul>
+    </nav>
+    
+    <h1>National Energy Statistics</h1>
+    
+    <div id="stats-container" class="national-stats-container">
+      <div id="total-energy-container">
+        <h2>Total Energy Consumption</h2>
+        <div id="total-energy" class="total-energy-value">Loading...</div>
+      </div>
+      
+      <div id="chart-container" class="chart-container">
+        <canvas id="pie-chart" width="300" height="300"></canvas>
+        <div id="chart-legend" class="chart-legend"></div>
+      </div>
+      
+      <div id="energy-sources" class="energy-sources">
+        <!-- Energy source bars will be inserted here -->
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const totalEnergyElement = document.getElementById('total-energy');
+      const energySourcesContainer = document.getElementById('energy-sources');
+      
+      // Load national statistics from localStorage leaderboard data
+      function loadNationalStats() {
+        try {
+          // Get leaderboard data from localStorage
+          const leaderboardData = localStorage.getItem('leaderboard');
+          let entries = [];
+          
+          if (leaderboardData) {
+            entries = JSON.parse(leaderboardData);
+          }
+          
+          // Calculate national statistics from leaderboard entries
+          const stats = calculateNationalStats(entries);
+          
+          // Display total energy
+          totalEnergyElement.textContent = `${stats.totalEnergy.toFixed(2)} KWh/day`;
+          
+          // Display energy sources
+          displayEnergySources(stats);
+          
+          // Create pie chart
+          createPieChart(stats);
+        } catch (error) {
+          console.error('Error loading national statistics:', error);
+          totalEnergyElement.textContent = 'Failed to load statistics';
+        }
+      }
+      
+      // Calculate national statistics from leaderboard entries
+      function calculateNationalStats(entries) {
+        // Initialize statistics
+        const stats = {
+          totalEnergy: 0,
+          energyBySource: {
+            wind: 0,
+            solar: 0,
+            gas: 0,
+            coal: 0
+          },
+          sourcePercentages: {
+            wind: 0,
+            solar: 0,
+            gas: 0,
+            coal: 0
+          }
+        };
+        
+        // Sum up all energy values from entries
+        entries.forEach(entry => {
+          stats.energyBySource.wind += entry.wind || 0;
+          stats.energyBySource.solar += entry.solar || 0;
+          stats.energyBySource.gas += entry.gas || 0;
+          stats.energyBySource.coal += entry.coal || 0;
+        });
+        
+        // Calculate total energy
+        stats.totalEnergy = 
+          stats.energyBySource.wind + 
+          stats.energyBySource.solar + 
+          stats.energyBySource.gas + 
+          stats.energyBySource.coal;
+        
+        // Calculate percentages
+        if (stats.totalEnergy > 0) {
+          stats.sourcePercentages.wind = (stats.energyBySource.wind / stats.totalEnergy) * 100;
+          stats.sourcePercentages.solar = (stats.energyBySource.solar / stats.totalEnergy) * 100;
+          stats.sourcePercentages.gas = (stats.energyBySource.gas / stats.totalEnergy) * 100;
+          stats.sourcePercentages.coal = (stats.energyBySource.coal / stats.totalEnergy) * 100;
+        }
+        
+        return stats;
+      }
+      
+      // Display energy sources
+      function displayEnergySources(stats) {
+        energySourcesContainer.innerHTML = '';
+        
+        if (stats.totalEnergy === 0) {
+          energySourcesContainer.innerHTML = '<div class="empty-message">No data available</div>';
+          return;
+        }
+        
+        const sources = stats.energyBySource;
+        const percentages = stats.sourcePercentages;
+        
+        // Wind
+        createSourceBar('Wind', sources.wind, percentages.wind, '#6E9EEB');
+        
+        // Solar
+        createSourceBar('Solar', sources.solar, percentages.solar, '#F9D56E');
+        
+        // Gas
+        createSourceBar('Gas', sources.gas, percentages.gas, '#F9966E');
+        
+        // Coal
+        createSourceBar('Coal', sources.coal, percentages.coal, '#8C8C8C');
+      }
+      
+      // Create a source bar
+      function createSourceBar(name, energy, percentage, color) {
+        const sourceDiv = document.createElement('div');
+        sourceDiv.className = 'energy-source';
+        
+        sourceDiv.innerHTML = `
+          <div class="source-name">${name}:</div>
+          <div class="source-bar-container">
+            <div class="source-bar" style="width: ${percentage}%; background-color: ${color};"></div>
+          </div>
+          <div class="source-value">${energy.toFixed(2)} KWh/day (${percentage.toFixed(2)}%)</div>
+        `;
+        
+        energySourcesContainer.appendChild(sourceDiv);
+      }
+      
+      // Create a pie chart
+      function createPieChart(stats) {
+        const canvas = document.getElementById('pie-chart');
+        const ctx = canvas.getContext('2d');
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) * 0.8;
+        
+        const percentages = stats.sourcePercentages;
+        
+        if (stats.totalEnergy === 0) return;
+        
+        // Draw pie slices
+        let startAngle = 0;
+        const sourceColors = {
+          wind: '#6E9EEB',
+          solar: '#F9D56E',
+          gas: '#F9966E',
+          coal: '#8C8C8C'
+        };
+        
+        Object.entries(percentages).forEach(([source, percentage]) => {
+          const endAngle = startAngle + (percentage / 100) * 2 * Math.PI;
+          
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+          ctx.closePath();
+          
+          ctx.fillStyle = sourceColors[source];
+          ctx.fill();
+          
+          startAngle = endAngle;
+        });
+        
+        // Draw legend
+        const legendContainer = document.getElementById('chart-legend');
+        legendContainer.innerHTML = '';
+        
+        Object.entries(sourceColors).forEach(([source, color]) => {
+          const percentage = percentages[source];
+          const legendItem = document.createElement('div');
+          legendItem.className = 'legend-item';
+          
+          legendItem.innerHTML = `
+            <div class="legend-color" style="background-color: ${color};"></div>
+            <div class="legend-label">${source.charAt(0).toUpperCase() + source.slice(1)}: ${percentage.toFixed(2)}%</div>
+          `;
+          
+          legendContainer.appendChild(legendItem);
+        });
+      }
+      
+      // Initial load
+      loadNationalStats();
+    });
+  </script>
+</body>
+</html>

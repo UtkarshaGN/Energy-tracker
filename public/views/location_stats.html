@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Tracker - Location Statistics</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav">
+      <ul>
+        <li><a href="/">Locations</a></li>
+        <li><a href="/leaderboard">Leaderboard</a></li>
+        <li><a href="/national-stats">National Stats</a></li>
+      </ul>
+    </nav>
+  
+    <h1>Location Statistics</h1>
+    
+    <h2 id="location-name">Loading...</h2>
+    
+    <div id="stats-container" class="stats-container">
+      <h3>Energy Sources:</h3>
+      
+      <div id="energy-sources" class="energy-sources">
+        <!-- Energy source bars will be popped here -->
+      </div>
+      
+      <div class="total-energy-container">
+        <h3>Energy Consumed by sources:</h3>
+        <div id="total-energy" class="total-energy-value">Loading...</div>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button id="back-button">Back to Locations</button>
+      <button id="post-button">Post to Leaderboard</button>
+    </div>
+  </div>
+  
+  <script type="module" src="/scripts/LocationStatsController.mjs"></script>
+</body>
+</html>

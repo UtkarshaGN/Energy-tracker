@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Tracker - Leaderboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav">
+      <ul>
+        <li><a href="/">Locations</a></li>
+        <li><a href="/leaderboard" class="active">Leaderboard</a></li>
+        <li><a href="/national-stats">National Stats</a></li>
+      </ul>
+    </nav>
+  
+    <h1>Leaderboard</h1>
+    
+    <div class="sorting-controls">
+      <label for="sort-select">Sorting by:</label>
+      <select id="sort-select">
+        <option value="state">State</option>
+        <option value="wind">Wind</option>
+        <option value="solar">Solar</option>
+        <option value="gas">Gas</option>
+        <option value="coal">Coal</option>
+      </select>
+    </div>
+    
+    <div class="leaderboard-container">
+      <table id="leaderboard-table">
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Wind</th>
+            <th>Solar</th>
+            <th>Gas</th>
+            <th>Coal</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- Leaderboard entries will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const leaderboardBody = document.getElementById('leaderboard-body');
+      const sortSelect = document.getElementById('sort-select');
+      
+      // Load leaderboard data from localStorage
+      function loadLeaderboard() {
+        try {
+          // Get data from localStorage
+          const leaderboardData = localStorage.getItem('leaderboard');
+          let entries = [];
+          
+          if (leaderboardData) {
+            entries = JSON.parse(leaderboardData);
+          }
+          
+          // Sort entries
+          sortEntries(entries);
+          
+          // Render entries
+          renderEntries(entries);
+        } catch (error) {
+          console.error('Error loading leaderboard:', error);
+          leaderboardBody.innerHTML = '<tr><td colspan="6">Failed to load leaderboard data</td></tr>';
+        }
+      }
+      
+      // Sort entries based on selected sort option
+      function sortEntries(entries) {
+        const sortBy = sortSelect.value;
+        
+        entries.sort((a, b) => {
+          if (sortBy === 'state') {
+            return a.state.localeCompare(b.state);
+          } else {
+            return b[sortBy] - a[sortBy];
+          }
+        });
+      }
+      
+      // Render leaderboard entries
+      function renderEntries(entries) {
+        leaderboardBody.innerHTML = '';
+        
+        if (entries.length === 0) {
+          leaderboardBody.innerHTML = '<tr><td colspan="6">No entries found</td></tr>';
+          return;
+        }
+        
+        entries.forEach(entry => {
+          const row = document.createElement('tr');
+          
+          row.innerHTML = `
+            <td>${entry.state}</td>
+            <td>${entry.wind}</td>
+            <td>${entry.solar}</td>
+            <td>${entry.gas}</td>
+            <td>${entry.coal}</td>
+            <td><button class="delete-button" data-id="${entry.id}">x</button></td>
+          `;
+          
+          // Add event listener for delete button
+          row.querySelector('.delete-button').addEventListener('click', (e) => {
+            const id = e.target.getAttribute('data-id');
+            deleteEntry(id);
+          });
+          
+          leaderboardBody.appendChild(row);
+        });
+      }
+      
+      // Delete leaderboard entry
+      function deleteEntry(id) {
+        try {
+          // Get current data
+          const leaderboardData = localStorage.getItem('leaderboard');
+          let entries = [];
+          
+          if (leaderboardData) {
+            entries = JSON.parse(leaderboardData);
+          }
+          
+          // Filter out the entry to delete
+          const newEntries = entries.filter(entry => entry.id !== id);
+          
+          // Save back to localStorage
+          localStorage.setItem('leaderboard', JSON.stringify(newEntries));
+          
+          // Reload the leaderboard
+          loadLeaderboard();
+        } catch (error) {
+          console.error('Error deleting entry:', error);
+          alert(`Failed to delete entry: ${error.message}`);
+        }
+      }
+      
+      // Add event listeners
+      sortSelect.addEventListener('change', loadLeaderboard);
+      
+      // Initial load
+      loadLeaderboard();
+    });
+  </script>
+</body>
+</html>

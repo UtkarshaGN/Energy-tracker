@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Tracker - Edit Location</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav">
+      <ul>
+        <li><a href="/">Locations</a></li>
+        <li><a href="/leaderboard">Leaderboard</a></li>
+        <li><a href="/national-stats">National Stats</a></li>
+      </ul>
+    </nav>
+    
+    <h1 id="page-title">Edit Location</h1>
+    
+    <div class="location-form">
+      <div class="form-group">
+        <label for="location-name">Location Name:</label>
+        <input type="text" id="location-name" placeholder="Enter location name">
+      </div>
+      
+      <div class="form-group">
+        <label for="location-state">State:</label>
+        <select id="location-state">
+          <option value="">Select a state</option>
+          <!-- State options will be popped here -->
+        </select>
+      </div>
+    </div>
+    
+    <div class="appliances-section">
+      <h2>Appliances</h2>
+      
+      <div id="appliance-list" class="appliance-list">
+        <!-- Appliance items will be popped here -->
+      </div>
+      
+      <div class="add-appliance-form">
+        <h3>Add Appliance</h3>
+        
+        <div class="form-group">
+          <label for="appliance-type">Type:</label>
+          <select id="appliance-type">
+            <option value="">Select an appliance type</option>
+            <!-- Appliance type options will be popped here -->
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="appliance-quantity">Quantity:</label>
+          <input type="number" id="appliance-quantity" value="1" min="1">
+        </div>
+        
+        <div class="form-group">
+          <label for="appliance-hours">Hours per day:</label>
+          <input type="number" id="appliance-hours" step="0.1" min="0" max="24" placeholder="Hours of operation">
+        </div>
+        
+        <button id="add-appliance-button">Add Appliance</button>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button id="back-button">Back</button>
+      <button id="delete-button" class="delete-button">Delete Location</button>
+      <button id="save-button">Save Location</button>
+    </div>
+  </div>
+  
+  <script type="module" src="/scripts/LocationEditController.mjs"></script>
+</body>
+</html>
