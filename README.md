@@ -1,5 +1,5 @@
 ## MVC Architecture Project
-
+Live demo - https://energy-tracker-wbcd.onrender.com
 ## Overview
 Energy Tracker App is a full-stack web application that helps users monitor and analyze their energy consumption across different locations. The system allows users to manage locations, track appliance usage, and view energy statistics to make informed decisions about energy efficiency.
 
